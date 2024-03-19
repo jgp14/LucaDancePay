@@ -1,6 +1,8 @@
 package com.lucatic.grupo2.app.pay.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
+import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
 import com.lucatic.grupo2.app.pay.exceptions.PayExistException;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
@@ -42,20 +44,23 @@ public class PayController {
 
 	})
 	@PostMapping
-	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayException {
+	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayException, JsonProcessingException {
 
 		try {
 			PayResponseWithError payResponseWithError = payService.managePurchases(payRequest);
-		
-					
-			LOGGER.info(payResponseWithError);
-			ResponseEntity.ok(payResponseWithError);
-			
 
+			LOGGER.info(payResponseWithError);
+			return ResponseEntity.ok(payResponseWithError);
+
+		} catch (PayExceptionBank e) {
+			LOGGER.warn(e);
+			throw e;
 		} catch (PayException e) {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
-		}
-
-	}
+		} catch (JsonProcessingException e) {
+            LOGGER.warn("Error al parsear json");
+			throw e;
+        }
+    }
 }

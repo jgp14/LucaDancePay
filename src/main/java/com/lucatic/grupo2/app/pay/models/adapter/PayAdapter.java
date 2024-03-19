@@ -76,17 +76,17 @@ public class PayAdapter {
 		return bankResponse;
 	}
 
-	public BankRequest toBankRequest(BankResponse bankResponse) {
+	public BankRequest toBankRequest(PayRequest payRequest, String username) {
 		BankRequest bankRequest = new BankRequest();
 
-		bankRequest.setNombreTitular(bankResponse.getInfo().getNombreTitular());
-		bankRequest.setNumeroTarjeta(bankResponse.getInfo().getNumeroTarjeta());
-		bankRequest.setMesCaducidad(bankResponse.getInfo().getMesCaducidad());
-		bankRequest.setYearCaducidad(bankResponse.getInfo().getYearCaducidad());
-		bankRequest.setCvv(bankResponse.getInfo().getCvv());
-		bankRequest.setEmisor(bankResponse.getInfo().getEmisor());
-		bankRequest.setConcepto(bankResponse.getInfo().getConcepto());
-		bankRequest.setCantidad(bankResponse.getInfo().getCantidad());
+		bankRequest.setNombreTitular(username);
+		bankRequest.setNumeroTarjeta(payRequest.getCodigoTarjeta());
+		bankRequest.setMesCaducidad(payRequest.getMes());
+		bankRequest.setYearCaducidad(payRequest.getAnio());
+		bankRequest.setCvv(payRequest.getCvv());
+		bankRequest.setEmisor(payRequest.getEmisor());
+		bankRequest.setConcepto(payRequest.getConcept());
+		bankRequest.setCantidad(payRequest.getPrecioFinal());
 
 		return bankRequest;
 	}

@@ -47,7 +47,7 @@ public class PayRequest {
 	 * Atributo string de codigo de tarjeta
 	 */
 	@NotBlank
-	private Integer codigoTarjeta;
+	private String codigoTarjeta;
 
 	/**
 	 * Atributo entero del mes caducidad
@@ -60,5 +60,11 @@ public class PayRequest {
 	 */
 	@NotNull
 	private Integer anio;
+
+	private Integer cvv;
+
+	private String emisor;
+
+	private String concept;
 
 }

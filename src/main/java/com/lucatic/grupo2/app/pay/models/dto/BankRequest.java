@@ -34,7 +34,7 @@ public class BankRequest {
 	private String emisor;
 	@NotBlank
 	private String concepto;
-	@NotBlank
-	private String cantidad;
+	@NotNull
+	private Double cantidad;
 
 }

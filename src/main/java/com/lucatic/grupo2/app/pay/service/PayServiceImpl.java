@@ -1,8 +1,11 @@
 package com.lucatic.grupo2.app.pay.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucatic.grupo2.app.pay.clientfeign.BankFeignClient;
 import com.lucatic.grupo2.app.pay.clientfeign.CheckUserEventFeignClient;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
+import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
 import com.lucatic.grupo2.app.pay.models.Pay;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.BankResponse;
@@ -10,9 +13,12 @@ import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponse;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import com.lucatic.grupo2.app.pay.repository.PayRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 public class PayServiceImpl implements PayService {
@@ -30,18 +36,29 @@ public class PayServiceImpl implements PayService {
     private PayRepository payRepository;
 
     @Override
-    public PayResponseWithError managePurchases(PayRequest payRequest) throws PayException {
+    public PayResponseWithError managePurchases(PayRequest payRequest) throws PayException, JsonProcessingException {
 
-        if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento())) {
+       if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento())) {
             throw new PayException("No se ha verificado el usuario y/o el evento");
         }
 
-        BankResponse bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest));
-        return analizeResponse(bankResponse);
+        String username = checkUserEventFeignClient.getNameUser(payRequest.getIdUsuario());
 
+        BankResponse bankResponse = null;
+
+        try {
+            bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest, "Juan"));
+        } catch (FeignException e) {
+
+            String responseBody = e.contentUTF8(); // Obtener el cuerpo de la respuesta como String
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            bankResponse = objectMapper.readValue(responseBody, BankResponse.class);
+        }
+        return analizeResponse(bankResponse, payRequest);
     }
 
-    public PayResponseWithError analizeResponse(BankResponse bankResponse, PayRequest payRequest) {
+    public PayResponseWithError analizeResponse(BankResponse bankResponse, PayRequest payRequest) throws PayExceptionBank {
 
         String code = bankResponse.getStatus();
         String error = bankResponse.getError();
@@ -59,19 +76,19 @@ public class PayServiceImpl implements PayService {
                         payRequest.getNumEntradas(),
                         payRequest.getCodigoTarjeta());
                 pay = payRepository.save(pay);
-
+                payResponseWithError.setEventResponse(new PayResponse(pay.getId(), Long.parseLong(code), bankResponse.getMessage()));
+                payResponseWithError.setError(null);
+                payResponseWithError.setErrorBool(false);
                 break;
 
             case "400":
                 throw new PayExceptionBank(error);
                 // Error
-                break;
-
             case "500":
                 throw new PayExceptionBank(error);
                 // Error
-                break;
         }
+        return payResponseWithError;
 
 //        200.0001
 //        Transacción correcta

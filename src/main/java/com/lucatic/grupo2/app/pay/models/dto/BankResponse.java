@@ -26,34 +26,34 @@ public class BankResponse {
 	/**
 	 * Atributo timestamp
 	 */
-	@NotBlank
+
 	private String timestamp;
 	/**
 	 * Atributo estado
 	 */
-	@NotBlank
+
 	private String status;
 	/**
 	 * Atributo mesnaje de error
 	 */
-	@NotBlank
+
 	private String error;
 
 	/**
 	 * Atributo mensaje lista de string
 	 */
-	@NotNull
+
 	private List<String> message = new ArrayList<>();
 	/**
 	 * Atributo BankRequest informacion de peticion
 	 */
-	@NotNull
+
 	private BankRequest info;
 
 	/**
 	 * Atributo informacion adiciona.
 	 */
-	@NotBlank
+
 	private String infoadicional;
 
 }

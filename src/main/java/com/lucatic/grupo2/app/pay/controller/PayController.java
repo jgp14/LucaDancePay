@@ -1,5 +1,6 @@
 package com.lucatic.grupo2.app.pay.controller;
 
+import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.exceptions.PayExistException;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
@@ -41,16 +42,17 @@ public class PayController {
 
 	})
 	@PostMapping
-	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayExistException {
+	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayException {
 
 		try {
 			PayResponseWithError payResponseWithError = payService.managePurchases(payRequest);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId())
-					.toUri();
+		
+					
 			LOGGER.info(payResponseWithError);
-			return ResponseEntity.created(location).body(payResponseWithError);
+			ResponseEntity.ok(payResponseWithError);
+			
 
-		} catch (PayExistException e) {
+		} catch (PayException e) {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
 		}

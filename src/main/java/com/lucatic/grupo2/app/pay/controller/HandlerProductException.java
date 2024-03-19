@@ -1,8 +1,10 @@
 package com.lucatic.grupo2.app.pay.controller;
 
 import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
+import com.lucatic.grupo2.app.pay.exceptions.PayFeignException;
 import com.lucatic.grupo2.app.pay.models.Error;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
+import com.lucatic.grupo2.app.pay.models.dto.StringResponseWithError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -132,5 +134,21 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(eventResponseWithError);
 	}
 
+
+
+	@ExceptionHandler(PayFeignException.class)
+	public ResponseEntity<PayResponseWithError> errorFeigngetUsername(PayFeignException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error en la búsqueda de username");
+		error.setMessage(e.getMessage());
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		PayResponseWithError payResponseWithError = new PayResponseWithError();
+		payResponseWithError.setError(error);
+		payResponseWithError.setErrorBool(true);
+		payResponseWithError.setEventResponse(null);
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(payResponseWithError);
+	}
 
 }

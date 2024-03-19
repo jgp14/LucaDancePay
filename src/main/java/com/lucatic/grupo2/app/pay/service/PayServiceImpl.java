@@ -6,12 +6,14 @@ import com.lucatic.grupo2.app.pay.clientfeign.BankFeignClient;
 import com.lucatic.grupo2.app.pay.clientfeign.CheckUserEventFeignClient;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
+import com.lucatic.grupo2.app.pay.exceptions.PayFeignException;
 import com.lucatic.grupo2.app.pay.models.Pay;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.BankResponse;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponse;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
+import com.lucatic.grupo2.app.pay.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.pay.repository.PayRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +40,25 @@ public class PayServiceImpl implements PayService {
     @Override
     public PayResponseWithError managePurchases(PayRequest payRequest) throws PayException, JsonProcessingException {
 
-       if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento()).isRespBool()) {
-            throw new PayException("No se ha verificado el usuario y/o el evento");
+        StringResponseWithError stringResponseWithError = null;
+
+        try {
+            if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento()).isRespBool()) {
+                throw new PayException("No se ha verificado el usuario y/o el evento");
+            }
+
+            stringResponseWithError = checkUserEventFeignClient.getNameUser(payRequest.getIdUsuario());
+            //System.out.println("------------" + stringResponseWithError );
+
+        } catch (FeignException e) {
+            throw new PayFeignException("Error en el feign con event manager");
+
         }
-
-        String username = checkUserEventFeignClient.getNameUser(payRequest.getIdUsuario());
-
 
         BankResponse bankResponse = null;
 
         try {
-            bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest, "Juan"));
+            bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest, stringResponseWithError.getUserExistText()));
         } catch (FeignException e) {
 
             String responseBody = e.contentUTF8(); // Obtener el cuerpo de la respuesta como String

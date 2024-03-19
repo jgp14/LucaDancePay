@@ -61,10 +61,13 @@ public class PayRequest {
 	@NotNull
 	private Integer anio;
 
+	@NotNull
 	private Integer cvv;
 
+	@NotBlank
 	private String emisor;
 
+	@NotBlank
 	private String concept;
 
 }

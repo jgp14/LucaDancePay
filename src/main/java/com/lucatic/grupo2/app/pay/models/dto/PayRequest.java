@@ -35,7 +35,7 @@ public class PayRequest {
 	 * Atributo entero de precio final
 	 */
 	@NotNull
-	private Integer precioFinal;
+	private Double precioFinal;
 
 	/**
 	 * Atributo entero de numero de entradas
@@ -47,7 +47,7 @@ public class PayRequest {
 	 * Atributo string de codigo de tarjeta
 	 */
 	@NotBlank
-	private String codigoTarjeta;
+	private Integer codigoTarjeta;
 
 	/**
 	 * Atributo entero del mes caducidad

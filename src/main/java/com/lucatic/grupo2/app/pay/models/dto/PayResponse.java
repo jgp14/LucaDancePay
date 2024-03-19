@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.pay.models.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +38,6 @@ public class PayResponse implements Serializable {
 	/**
 	 * Atributo mensaje de lista de string
 	 */
-	private String mensaje;
+	private List<String> mensaje;
 
 }

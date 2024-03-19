@@ -25,7 +25,7 @@ public class PayServiceImpl implements PayService {
     @Override
     public PayResponse managePurchases(PayRequest payRequest) {
 
-        if (!checkUserEventFeignClient.checkUserEvent(payRequest.getId_usuario(), payRequest.getId_evento())) {
+        if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento())) {
             throw new PayException("No se ha verificado el usuario y/o el evento");
         }
 

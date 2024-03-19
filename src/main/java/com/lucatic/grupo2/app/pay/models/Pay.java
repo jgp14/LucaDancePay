@@ -28,9 +28,9 @@ public class Pay {
     private Double finalPrice;
     private Integer tickets;
     @Column(name = "card_number")
-    private Integer cardNumber;
+    private String cardNumber;
 
-    public Pay(Long idUser, Long idEvent, Double finalPrice, Integer tickets, Integer cardNumber) {
+    public Pay(Long idUser, Long idEvent, Double finalPrice, Integer tickets, String cardNumber) {
         this.idUser = idUser;
         this.idEvent = idEvent;
         this.finalPrice = finalPrice;

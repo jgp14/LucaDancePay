@@ -1,5 +1,6 @@
 package com.lucatic.grupo2.app.pay.controller;
 
+import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.exceptions.PayExistException;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
@@ -58,7 +59,9 @@ public class PayController {
 		} catch (PayExistException e) {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
-		}
+		} catch (PayException e) {
+            throw e;
+        }
 
-	}
+    }
 }

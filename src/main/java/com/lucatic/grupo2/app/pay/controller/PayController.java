@@ -3,6 +3,7 @@ package com.lucatic.grupo2.app.pay.controller;
 import com.lucatic.grupo2.app.pay.exceptions.PayExistException;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
+import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import com.lucatic.grupo2.app.pay.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,16 +30,14 @@ public class PayController {
 	@Autowired
 	private PayService payService;
 
-	@Autowired
-	private PayAdapter payAdapter;
 
 	@Operation(summary = "Dar de alta un pago", description = "Incluye un nuevo pago en la base de datos", tags = {
 			"event" })
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Usuario creado correctamente", content = {
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Pago creado correctamente", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = PayResponseWithError.class)) }),
 
-			@ApiResponse(responseCode = "400", description = "El usuario ya existe", content = @Content),
-			@ApiResponse(responseCode = "500", description = "Error genérico en alta usuario", content = @Content)
+			@ApiResponse(responseCode = "400", description = "El papgo ya existe", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Error genérico en alta de pago", content = @Content)
 
 	})
 	@PostMapping

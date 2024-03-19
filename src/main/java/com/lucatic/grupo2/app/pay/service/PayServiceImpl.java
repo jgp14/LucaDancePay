@@ -4,8 +4,10 @@ import com.lucatic.grupo2.app.pay.clientfeign.BankFeignClient;
 import com.lucatic.grupo2.app.pay.clientfeign.CheckUserEventFeignClient;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
+import com.lucatic.grupo2.app.pay.models.dto.BankResponse;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponse;
+import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class PayServiceImpl implements PayService {
     private CheckUserEventFeignClient checkUserEventFeignClient;
 
     @Override
-    public PayResponse managePurchases(PayRequest payRequest) {
+    public PayResponseWithError managePurchases(PayRequest payRequest) {
 
         if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento())) {
             throw new PayException("No se ha verificado el usuario y/o el evento");

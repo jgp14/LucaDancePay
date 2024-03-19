@@ -1,6 +1,8 @@
 package com.lucatic.grupo2.app.pay.models.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,19 +21,45 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PayRequest {
 
-	@NotEmpty
-	private Long id_usuario;
-	@NotEmpty
-	private Long id_evento;
-	@NotEmpty
-	private int precio_final;
-	@NotEmpty
-	private int num_entradas;
-	@NotEmpty
-	private String codigo_tarjeta;
-	@NotEmpty
-	private int mes;
-	@NotEmpty
-	private int anio;
+	/**
+	 * Atributo id de usuario
+	 */
+	@NotNull
+	private Long idUsuario;
+
+	/**
+	 * Atributo id de evento
+	 */
+	@NotNull
+	private Long idEvento;
+	/**
+	 * Atributo entero de precio final
+	 */
+	@NotNull
+	private Integer precioFinal;
+
+	/**
+	 * Atributo entero de numero de entradas
+	 */
+	@NotNull
+	private Integer numEntradas;
+
+	/**
+	 * Atributo string de codigo de tarjeta
+	 */
+	@NotBlank
+	private String codigoTarjeta;
+
+	/**
+	 * Atributo entero del mes caducidad
+	 */
+	@NotNull
+	private Integer mes;
+
+	/**
+	 * Atributo anio de la caducidad
+	 */
+	@NotNull
+	private Integer anio;
 
 }

@@ -21,50 +21,60 @@ import lombok.NoArgsConstructor;
 public class PayRequest {
 
 	/**
-	 * Atributo id de usuario
+	 * Atributo id de usuario.
 	 */
 	@NotNull
 	private Long idUsuario;
 
 	/**
-	 * Atributo id de evento
+	 * Atributo id de evento.
 	 */
 	@NotNull
 	private Long idEvento;
 	/**
-	 * Atributo entero de precio final
+	 * Atributo entero de precio final.
 	 */
 	@NotNull
 	private Double precioFinal;
 
 	/**
-	 * Atributo entero de numero de entradas
+	 * Atributo entero de numero de entradas.
 	 */
 	@NotNull
 	private Integer numEntradas;
 
 	/**
-	 * Atributo string de codigo de tarjeta
+	 * Atributo string de codigo de tarjeta.
 	 */
 	@NotBlank
 	private String codigoTarjeta;
 
 	/**
-	 * Atributo entero del mes caducidad
+	 * Atributo entero del mes caducidad.
 	 */
 	@NotNull
 	private Integer mes;
 
 	/**
-	 * Atributo anio de la caducidad
+	 * Atributo entero anio de la caducidad.
 	 */
 	@NotNull
 	private Integer anio;
-
+	
+	
+	/**
+	 * Atributo entero cvv de la tarjeta.
+	 */
 	private Integer cvv;
-
+	
+	/**
+	 * Atributo String nombre del emisor.
+	 */
 	private String emisor;
-
+	
+	/**
+	 * atributo String del concepto.
+	 */
 	private String concept;
 
 }

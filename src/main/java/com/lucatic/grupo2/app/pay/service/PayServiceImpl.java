@@ -20,6 +20,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * Clase que implementa el servicio de pagos.
+ *
+ * @author BlueDevTeams
+ * @version v1.0.0
+ * @since 19-03-2024
+ */
 @Service
 public class PayServiceImpl implements PayService {
 
@@ -34,7 +41,16 @@ public class PayServiceImpl implements PayService {
 
     @Autowired
     private PayRepository payRepository;
-
+    
+    
+    /**
+     * Gestiona las compras realizadas por los usuarios.
+     *
+     * @param payRequest La solicitud de pago que contiene los detalles de la compra.
+     * @return PayResponseWithError El resultado del proceso de compra, incluyendo cualquier error si lo hubiera.
+     * @throws PayException Si ocurre algún error durante el proceso de compra.
+     * @throws JsonProcessingException Si hay algún problema al procesar la solicitud en formato JSON.
+     */
     @Override
     public PayResponseWithError managePurchases(PayRequest payRequest) throws PayException, JsonProcessingException {
 
@@ -58,7 +74,15 @@ public class PayServiceImpl implements PayService {
         }
         return analizeResponse(bankResponse, payRequest);
     }
-
+    
+    /**
+     * Analiza la respuesta proporcionada por el banco después de una transacción.
+     *
+     * @param bankResponse La respuesta proporcionada por el banco.
+     * @param payRequest   La solicitud de pago original que desencadenó la transacción.
+     * @return PayResponseWithError El resultado del análisis de la respuesta del banco, incluyendo cualquier error si lo hubiera.
+     * @throws PayExceptionBank Si la respuesta del banco indica un error en la transacción.
+     */
     public PayResponseWithError analizeResponse(BankResponse bankResponse, PayRequest payRequest) throws PayExceptionBank {
 
         String code = bankResponse.getStatus();

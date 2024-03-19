@@ -1,5 +1,7 @@
 package com.lucatic.grupo2.app.pay.controller;
 
+import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
+import com.lucatic.grupo2.app.pay.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lucatic.grupo2.app.pay.model.adapter.PayAdapter;
-
 import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/pay")
 public class PayController {
 	private final static Logger LOGGER = LogManager.getLogger(PayController.class);
+
 	@Autowired
 	private PayService payService;
+
 	@Autowired
 	private PayAdapter payAdapter;
 	

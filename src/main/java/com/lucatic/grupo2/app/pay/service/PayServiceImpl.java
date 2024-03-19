@@ -1,5 +1,6 @@
 package com.lucatic.grupo2.app.pay.service;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucatic.grupo2.app.pay.clientfeign.BankFeignClient;
@@ -41,6 +42,7 @@ public class PayServiceImpl implements PayService {
     public PayResponseWithError managePurchases(PayRequest payRequest) throws PayException, JsonProcessingException {
 
         StringResponseWithError stringResponseWithError = null;
+        BankResponse bankResponse = null;
 
         try {
             if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento()).isRespBool()) {
@@ -50,21 +52,19 @@ public class PayServiceImpl implements PayService {
             stringResponseWithError = checkUserEventFeignClient.getNameUser(payRequest.getIdUsuario());
             //System.out.println("------------" + stringResponseWithError );
 
-        } catch (FeignException e) {
-            throw new PayFeignException("Error en el feign con event manager");
 
-        }
-
-        BankResponse bankResponse = null;
-
-        try {
             bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest, stringResponseWithError.getUserExistText()));
+
         } catch (FeignException e) {
 
-            String responseBody = e.contentUTF8(); // Obtener el cuerpo de la respuesta como String
+            try {
+                String responseBody = e.contentUTF8(); // Obtener el cuerpo de la respuesta como String
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            bankResponse = objectMapper.readValue(responseBody, BankResponse.class);
+                ObjectMapper objectMapper = new ObjectMapper();
+                bankResponse = objectMapper.readValue(responseBody, BankResponse.class);
+            } catch (JsonParseException ex) {
+                throw new JsonParseException("Error no se puede parsear respuesta json microservicios " + ex.getMessage());
+            }
         }
         return analizeResponse(bankResponse, payRequest);
     }

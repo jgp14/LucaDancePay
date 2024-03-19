@@ -1,5 +1,6 @@
 package com.lucatic.grupo2.app.pay.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
@@ -58,8 +59,8 @@ public class PayController {
 		} catch (PayException e) {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
-		} catch (JsonProcessingException e) {
-            LOGGER.warn("Error al parsear json");
+		} catch (JsonParseException e) {
+            LOGGER.warn(e.getMessage());
 			throw e;
         }
     }

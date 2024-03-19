@@ -1,4 +1,4 @@
-package com.lucatic.grupo2.app.play.control;
+package com.lucatic.grupo2.app.pay.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +11,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lucatic.grupo2.app.model.adapter.PayAdapter;
-
-import org.springframework.web.bind.annotation.GetMapping;
+import com.lucatic.grupo2.app.pay.model.adapter.PayAdapter;
 
 import org.springframework.web.bind.annotation.RequestBody;
 @RestController

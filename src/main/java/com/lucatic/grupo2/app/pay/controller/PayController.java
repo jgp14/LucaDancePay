@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.pay.controller;
 
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
+import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

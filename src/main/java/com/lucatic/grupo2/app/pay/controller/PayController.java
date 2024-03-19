@@ -1,6 +1,8 @@
 package com.lucatic.grupo2.app.pay.controller;
 
+import com.lucatic.grupo2.app.pay.exceptions.PayExistException;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
+import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import java.net.URI;
 import org.springframework.web.bind.annotation.RequestBody;
+
 @RestController
 @RequestMapping("/pay")
 public class PayController {
@@ -28,28 +31,27 @@ public class PayController {
 
 	@Autowired
 	private PayAdapter payAdapter;
-	
+
 	@Operation(summary = "Dar de alta un pago", description = "Incluye un nuevo pago en la base de datos", tags = {
-	"event" })
-@ApiResponses(value = {
-	@ApiResponse(responseCode = "200", description = "Usuario creado correctamente", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseWithError.class)) }),
+			"event" })
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Usuario creado correctamente", content = {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = PayResponseWithError.class)) }),
 
-	@ApiResponse(responseCode = "400", description = "El usuario ya existe", content = @Content),
-	@ApiResponse(responseCode = "500", description = "Error genérico en alta usuario", content = @Content)
+			@ApiResponse(responseCode = "400", description = "El usuario ya existe", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Error genérico en alta usuario", content = @Content)
 
-})
+	})
 	@PostMapping
 	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayExistException {
 
 		try {
-			PayResponseWithError pay = payService.save(payRequest);
+			PayResponseWithError payResponseWithError = payService.managePurchases(payRequest);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId())
 					.toUri();
-			LOGGER.info("User " + user.getName() + " with id " + user.getId() + " has been created");
-			return ResponseEntity.created(location).body(userAdapter.toEventResponseWithError(user));
+			LOGGER.info(payResponseWithError);
+			return ResponseEntity.created(location).body(payResponseWithError);
 
-		} catch (UserExistException e) {
+		} catch (PayExistException e) {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
 		}

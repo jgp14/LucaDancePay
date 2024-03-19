@@ -9,6 +9,8 @@ import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import com.lucatic.grupo2.app.pay.service.PayService;
+import com.lucatic.grupo2.app.users.exceptions.UserExistException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,14 +28,36 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * Clase controladora, toma las decisiones de la aplicacion
+ *
+ * @author BlueDevTeam
+ * @version 1.0.0
+ * @since 19-03-2024
+ */
+
 @RestController
 @RequestMapping("/pay")
 public class PayController {
+	
+	/**
+	 * Logger que registra los errores de clase PayController
+	 */
 	private final static Logger LOGGER = LogManager.getLogger(PayController.class);
 
+	/**
+	 * Auto instanciamos el servicio de pagos
+	 */
 	@Autowired
 	private PayService payService;
 
+	/**
+	 * Guarda un request body de un nuevo pago en la base de datos paydb
+	 * 
+	 * @param eventRequest Con los datos del Pay a guardar
+	 * @return ResponseEntity Con la respuesta de guardar el pago
+	 * @throws PayExistException cuando no se guardo correctamente
+	 */
 
 	@Operation(summary = "Dar de alta un pago", description = "Incluye un nuevo pago en la base de datos", tags = {
 			"event" })

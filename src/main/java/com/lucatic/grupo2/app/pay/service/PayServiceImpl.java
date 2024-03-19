@@ -38,11 +38,12 @@ public class PayServiceImpl implements PayService {
     @Override
     public PayResponseWithError managePurchases(PayRequest payRequest) throws PayException, JsonProcessingException {
 
-       if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento())) {
+       if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento()).isRespBool()) {
             throw new PayException("No se ha verificado el usuario y/o el evento");
         }
 
         String username = checkUserEventFeignClient.getNameUser(payRequest.getIdUsuario());
+
 
         BankResponse bankResponse = null;
 

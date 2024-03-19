@@ -1,17 +1,18 @@
 package com.lucatic.grupo2.app.pay.clientfeign;
 
+import com.lucatic.grupo2.app.pay.models.dto.BoolResponseWithError;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "checkUserEvent")
+@FeignClient(name = "eventmanager")
 public interface CheckUserEventFeignClient {
 
-    @PostMapping("/checkuserevent/{iduser}/{idevent}")
-    Boolean checkUserEvent(@PathVariable Long iduser, @PathVariable Long idevent);
+    @GetMapping("/eventmanager/checkExist/{idUser}/{idEvent}")
+    BoolResponseWithError checkUserEvent(@PathVariable Long idUser, @PathVariable Long idEvent);
 
-    @GetMapping("/getUser")
-    String getNameUser(@RequestParam Long idUser);
+    @GetMapping("/eventmanager/getUser/{idUser}")
+    String getNameUser(@PathVariable Long idUser);
 }

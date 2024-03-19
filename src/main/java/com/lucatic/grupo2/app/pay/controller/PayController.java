@@ -20,10 +20,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.net.URI;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/pay")
@@ -33,35 +31,31 @@ public class PayController {
 	@Autowired
 	private PayService payService;
 
-	@Autowired
-	private PayAdapter payAdapter;
-	
+
 	@Operation(summary = "Dar de alta un pago", description = "Incluye un nuevo pago en la base de datos", tags = {
-	"event" })
-@ApiResponses(value = {
-	@ApiResponse(responseCode = "200", description = "Usuario creado correctamente", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseWithError.class)) }),
+			"event" })
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Pago creado correctamente", content = {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = PayResponseWithError.class)) }),
 
-	@ApiResponse(responseCode = "400", description = "El usuario ya existe", content = @Content),
-	@ApiResponse(responseCode = "500", description = "Error genérico en alta usuario", content = @Content)
+			@ApiResponse(responseCode = "400", description = "El papgo ya existe", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Error genérico en alta de pago", content = @Content)
 
-})
+	})
 	@PostMapping
-	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayExistException {
+	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayException {
 
 		try {
-			PayResponseWithError pay = payService.managePurchases(payRequest);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId())
-					.toUri();
-			LOGGER.info("User " + user.getName() + " with id " + user.getId() + " has been created");
-			return ResponseEntity.created(location).body(userAdapter.toEventResponseWithError(user));
+			PayResponseWithError payResponseWithError = payService.managePurchases(payRequest);
+		
+					
+			LOGGER.info(payResponseWithError);
+			ResponseEntity.ok(payResponseWithError);
+			
 
-		} catch (PayExistException e) {
+		} catch (PayException e) {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
-		} catch (PayException e) {
-            throw e;
-        }
+		}
 
-    }
+	}
 }

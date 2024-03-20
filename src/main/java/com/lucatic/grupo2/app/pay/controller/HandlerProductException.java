@@ -66,9 +66,9 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(eventResponseWithError);
 	}
 
-
 	/**
 	 * Error de tipo argumento de método no válido
+	 * 
 	 * @param e La excepción
 	 * @return Un BADREQUEST con eventResponseWithError
 	 */
@@ -85,7 +85,6 @@ public class HandlerProductException {
 		eventResponseWithError.setErrorBool(true);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(eventResponseWithError);
 	}
-
 
 	/**
 	 * Error de excepcion no se encontro el Handler.
@@ -129,6 +128,7 @@ public class HandlerProductException {
 
 	/**
 	 * Error con transacciones con el banco
+	 * 
 	 * @param e La excepcion
 	 * @return Mensaje de error
 	 */
@@ -146,9 +146,9 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(eventResponseWithError);
 	}
 
-
 	/**
 	 * Error genérico de Pay
+	 * 
 	 * @param e el error
 	 * @return INTERNAL_SERVER_ERROR con el eventResponseWithError
 	 */
@@ -166,9 +166,9 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(eventResponseWithError);
 	}
 
-
 	/**
 	 * Errores de feign
+	 * 
 	 * @param e La excepción
 	 * @return un payResponseWithError con BAD_REQUEST
 	 */
@@ -189,6 +189,7 @@ public class HandlerProductException {
 
 	/**
 	 * Error de tipo parseo de json
+	 * 
 	 * @param e La excepción de json
 	 * @return un INTERNAL_SERVER_ERROR con payResponseWithError
 	 */

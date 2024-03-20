@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/pay")
 public class PayController {
-	
+
 	/**
 	 * Logger que registra los errores de clase PayController
 	 */
@@ -66,7 +66,8 @@ public class PayController {
 
 	})
 	@PostMapping
-	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest) throws PayException, JsonProcessingException {
+	public ResponseEntity<?> buy(@Valid @RequestBody PayRequest payRequest)
+			throws PayException, JsonProcessingException {
 
 		try {
 			PayResponseWithError payResponseWithError = payService.managePurchases(payRequest);
@@ -81,8 +82,8 @@ public class PayController {
 			LOGGER.warn("Error pushing the event" + e.getMessage());
 			throw e;
 		} catch (JsonParseException e) {
-            LOGGER.warn(e.getMessage());
+			LOGGER.warn(e.getMessage());
 			throw e;
-        }
-    }
+		}
+	}
 }

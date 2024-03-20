@@ -43,6 +43,7 @@ public class PayAdapter {
 		PayResponseWithError payResponseWithError = new PayResponseWithError();
 		payResponseWithError.setEventResponse(payResponse);
 		payResponseWithError.setErrorBool(false);
+		LOGGER.info("payResponseWithError: " + payResponseWithError.toString());
 		return payResponseWithError;
 	}
 
@@ -62,13 +63,13 @@ public class PayAdapter {
 
 		return pay;
 	}
-	
-	 /**
-     * Método que convierte un objeto BankRequest en un BankResponse.
-     * 
-     * @param bankRequest El objeto BankRequest a ser convertido.
-     * @return BankResponse El objeto BankResponse resultante.
-     */
+
+	/**
+	 * Método que convierte un objeto BankRequest en un BankResponse.
+	 * 
+	 * @param bankRequest El objeto BankRequest a ser convertido.
+	 * @return BankResponse El objeto BankResponse resultante.
+	 */
 	public BankResponse toBankResponse(BankRequest bankRequest) {
 		BankResponse bankResponse = new BankResponse();
 
@@ -78,17 +79,19 @@ public class PayAdapter {
 		bankResponse.setMessage(new ArrayList<>());
 		bankResponse.setInfo(bankRequest);
 		bankResponse.setInfoadicional("Información adicional");
+		LOGGER.info("bankResponse: " + bankResponse.toString());
 
 		return bankResponse;
 	}
-	
+
 	/**
-     * Método que convierte un objeto PayRequest y un nombre de usuario en un objeto BankRequest.
-     * 
-     * @param payRequest El objeto PayRequest.
-     * @param username   El nombre de usuario.
-     * @return BankRequest El objeto BankRequest resultante.
-     */
+	 * Método que convierte un objeto PayRequest y un nombre de usuario en un objeto
+	 * BankRequest.
+	 * 
+	 * @param payRequest El objeto PayRequest.
+	 * @param username   El nombre de usuario.
+	 * @return BankRequest El objeto BankRequest resultante.
+	 */
 	public BankRequest toBankRequest(PayRequest payRequest, String username) {
 		BankRequest bankRequest = new BankRequest();
 
@@ -100,6 +103,7 @@ public class PayAdapter {
 		bankRequest.setEmisor(payRequest.getEmisor());
 		bankRequest.setConcepto(payRequest.getConcept());
 		bankRequest.setCantidad(payRequest.getPrecioFinal() * payRequest.getNumEntradas());
+		LOGGER.info("bankRequest: " + bankRequest.toString());
 
 		return bankRequest;
 	}

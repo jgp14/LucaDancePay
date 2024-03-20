@@ -99,7 +99,7 @@ public class PayAdapter {
 		bankRequest.setCvv(payRequest.getCvv());
 		bankRequest.setEmisor(payRequest.getEmisor());
 		bankRequest.setConcepto(payRequest.getConcept());
-		bankRequest.setCantidad(payRequest.getPrecioFinal());
+		bankRequest.setCantidad(payRequest.getPrecioFinal() * payRequest.getNumEntradas());
 
 		return bankRequest;
 	}

@@ -17,6 +17,8 @@ import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import com.lucatic.grupo2.app.pay.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.pay.repository.PayRepository;
 import feign.FeignException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,8 @@ import java.util.Arrays;
 @Service
 public class PayServiceImpl implements PayService {
 
+    private static final Logger LOGGER = LogManager.getLogger(PayServiceImpl.class);
+
     @Autowired
     private PayAdapter payAdapter;
 
@@ -45,14 +49,14 @@ public class PayServiceImpl implements PayService {
 
     @Autowired
     private PayRepository payRepository;
-    
-    
+
+
     /**
      * Gestiona las compras realizadas por los usuarios.
      *
      * @param payRequest La solicitud de pago que contiene los detalles de la compra.
      * @return PayResponseWithError El resultado del proceso de compra, incluyendo cualquier error si lo hubiera.
-     * @throws PayException Si ocurre algún error durante el proceso de compra.
+     * @throws PayException            Si ocurre algún error durante el proceso de compra.
      * @throws JsonProcessingException Si hay algún problema al procesar la solicitud en formato JSON.
      */
     @Override
@@ -63,29 +67,48 @@ public class PayServiceImpl implements PayService {
 
         try {
             if (!checkUserEventFeignClient.checkUserEvent(payRequest.getIdUsuario(), payRequest.getIdEvento()).isRespBool()) {
+                LOGGER.warn("No se ha verificado el usuario y/o evento");
                 throw new PayException("No se ha verificado el usuario y/o el evento");
             }
+        } catch (FeignException e) {
+            LOGGER.warn(e);
+            throw new PayException("Error chekeando microservicio eventmanager para verificar usuario y evento");
+        }
+
+        try {
 
             stringResponseWithError = checkUserEventFeignClient.getNameUser(payRequest.getIdUsuario());
-            //System.out.println("------------" + stringResponseWithError );
-
-
-            bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest, stringResponseWithError.getUserExistText()));
-
+            LOGGER.info(stringResponseWithError);
         } catch (FeignException e) {
+            LOGGER.warn(e);
+            throw new PayException("Error checkeando nombre de usuario microservicio eventmanager");
+        }
 
+        if (!stringResponseWithError.isErrorBool()) {
             try {
-                String responseBody = e.contentUTF8(); // Obtener el cuerpo de la respuesta como String
+                bankResponse = bankFeignClient.processBank(payAdapter.toBankRequest(payRequest, stringResponseWithError.getUserExistText()));
+                LOGGER.info("bankResponse : " + bankResponse);
+            } catch (FeignException e) {
+                try {
+                    String responseBody = e.contentUTF8(); // Obtener el cuerpo de la respuesta como String
 
-                ObjectMapper objectMapper = new ObjectMapper();
-                bankResponse = objectMapper.readValue(responseBody, BankResponse.class);
-            } catch (JsonParseException ex) {
-                throw new JsonParseException("Error no se puede parsear respuesta json microservicios " + ex.getMessage());
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    bankResponse = objectMapper.readValue(responseBody, BankResponse.class);
+                } catch (JsonParseException ex) {
+                    LOGGER.warn(ex);
+                    throw ex;
+                }
             }
         }
-        return analizeResponse(bankResponse, payRequest);
+
+        if (bankResponse != null)
+            return analizeResponse(bankResponse, payRequest);
+        else {
+            LOGGER.warn("bankResponse null");
+            throw new PayException("bankResponse null");
+        }
     }
-    
+
     /**
      * Analiza la respuesta proporcionada por el banco después de una transacción.
      *
@@ -108,19 +131,22 @@ public class PayServiceImpl implements PayService {
                 Pay pay = new Pay(
                         payRequest.getIdUsuario(),
                         payRequest.getIdEvento(),
-                        payRequest.getPrecioFinal(),
+                        payRequest.getPrecioFinal() * payRequest.getNumEntradas(),
                         payRequest.getNumEntradas(),
                         payRequest.getCodigoTarjeta());
                 pay = payRepository.save(pay);
+                LOGGER.info(pay + " guardado en bbdd");
                 payResponseWithError.setEventResponse(new PayResponse(pay.getId(), Long.parseLong(code), Arrays.asList("Pago realizado con éxito")));
                 payResponseWithError.setError(null);
                 payResponseWithError.setErrorBool(false);
                 break;
 
             case "400":
+                LOGGER.info(error);
                 throw new PayExceptionBank(error);
                 // Error
             case "500":
+                LOGGER.info(error);
                 throw new PayExceptionBank(error);
                 // Error
         }

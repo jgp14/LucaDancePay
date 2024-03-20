@@ -7,7 +7,6 @@ import com.lucatic.grupo2.app.pay.clientfeign.BankFeignClient;
 import com.lucatic.grupo2.app.pay.clientfeign.CheckUserEventFeignClient;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
-import com.lucatic.grupo2.app.pay.exceptions.PayFeignException;
 import com.lucatic.grupo2.app.pay.models.Pay;
 import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.BankResponse;
@@ -20,10 +19,8 @@ import feign.FeignException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**

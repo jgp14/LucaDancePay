@@ -6,7 +6,6 @@ import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
 import com.lucatic.grupo2.app.pay.exceptions.PayFeignException;
 import com.lucatic.grupo2.app.pay.models.Error;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
-import com.lucatic.grupo2.app.pay.models.dto.StringResponseWithError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;

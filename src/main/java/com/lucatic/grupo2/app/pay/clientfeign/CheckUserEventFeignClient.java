@@ -5,8 +5,6 @@ import com.lucatic.grupo2.app.pay.models.dto.StringResponseWithError;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Cliente Feign para la comunicación con el servicio de gestión de eventos y usuarios.

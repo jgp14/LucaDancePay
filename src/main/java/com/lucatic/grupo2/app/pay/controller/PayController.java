@@ -5,11 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucatic.grupo2.app.pay.exceptions.PayException;
 import com.lucatic.grupo2.app.pay.exceptions.PayExceptionBank;
 import com.lucatic.grupo2.app.pay.exceptions.PayExistException;
-import com.lucatic.grupo2.app.pay.models.adapter.PayAdapter;
 import com.lucatic.grupo2.app.pay.models.dto.PayRequest;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import com.lucatic.grupo2.app.pay.service.PayService;
-import com.lucatic.grupo2.app.users.exceptions.UserExistException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import java.net.URI;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -54,7 +51,7 @@ public class PayController {
 	/**
 	 * Guarda un request body de un nuevo pago en la base de datos paydb
 	 * 
-	 * @param eventRequest Con los datos del Pay a guardar
+	 * @param payRequest Con los datos del Pay a guardar
 	 * @return ResponseEntity Con la respuesta de guardar el pago
 	 * @throws PayExistException cuando no se guardo correctamente
 	 */

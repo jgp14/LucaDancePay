@@ -22,6 +22,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Clase que implementa el servicio de pagos.
@@ -111,7 +112,7 @@ public class PayServiceImpl implements PayService {
                         payRequest.getNumEntradas(),
                         payRequest.getCodigoTarjeta());
                 pay = payRepository.save(pay);
-                payResponseWithError.setEventResponse(new PayResponse(pay.getId(), Long.parseLong(code), bankResponse.getMessage()));
+                payResponseWithError.setEventResponse(new PayResponse(pay.getId(), Long.parseLong(code), Arrays.asList("Pago realizado con éxito")));
                 payResponseWithError.setError(null);
                 payResponseWithError.setErrorBool(false);
                 break;

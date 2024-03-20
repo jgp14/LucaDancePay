@@ -66,6 +66,12 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(eventResponseWithError);
 	}
 
+
+	/**
+	 * Error de tipo argumento de método no válido
+	 * @param e La excepción
+	 * @return Un BADREQUEST con eventResponseWithError
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<PayResponseWithError> errorGenericoRuntime(MethodArgumentNotValidException e) {
 		Error error = new Error();
@@ -121,6 +127,11 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(eventResponseWithError);
 	}
 
+	/**
+	 * Error con transacciones con el banco
+	 * @param e La excepcion
+	 * @return Mensaje de error
+	 */
 	@ExceptionHandler(PayExceptionBank.class)
 	public ResponseEntity<PayResponseWithError> errorBank(PayExceptionBank e) {
 		Error error = new Error();
@@ -136,6 +147,11 @@ public class HandlerProductException {
 	}
 
 
+	/**
+	 * Error genérico de Pay
+	 * @param e el error
+	 * @return INTERNAL_SERVER_ERROR con el eventResponseWithError
+	 */
 	@ExceptionHandler(PayException.class)
 	public ResponseEntity<PayResponseWithError> errorPayException(PayException e) {
 		Error error = new Error();
@@ -151,7 +167,11 @@ public class HandlerProductException {
 	}
 
 
-
+	/**
+	 * Errores de feign
+	 * @param e La excepción
+	 * @return un payResponseWithError con BAD_REQUEST
+	 */
 	@ExceptionHandler(PayFeignException.class)
 	public ResponseEntity<PayResponseWithError> errorFeigngetUsername(PayFeignException e) {
 		Error error = new Error();
@@ -167,6 +187,11 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(payResponseWithError);
 	}
 
+	/**
+	 * Error de tipo parseo de json
+	 * @param e La excepción de json
+	 * @return un INTERNAL_SERVER_ERROR con payResponseWithError
+	 */
 	@ExceptionHandler(JsonParseException.class)
 	public ResponseEntity<PayResponseWithError> errorFeigngetUsername(JsonParseException e) {
 		Error error = new Error();

@@ -5,6 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * StringResponseWithError un mensaje de String encapsulado con el error
+ *
+ * @author BlueDevTeams
+ * @version v1.0.0
+ * @since 18-03-2024
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

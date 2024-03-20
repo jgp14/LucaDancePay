@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * BoolResponseWithError devuelve un booleano con un error encapsulado
+ *
+ * @author BlueDevTeams
+ * @version v1.0.0
+ * @since 18-03-2024
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

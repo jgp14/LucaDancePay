@@ -60,18 +60,18 @@ public class PayRequest {
 	 */
 	@NotNull
 	private Integer anio;
-	
-	
+
+
 	/**
 	 * Atributo entero cvv de la tarjeta.
 	 */
 	private Integer cvv;
-	
+
 	/**
 	 * Atributo String nombre del emisor.
 	 */
 	private String emisor;
-	
+
 	/**
 	 * atributo String del concepto.
 	 */

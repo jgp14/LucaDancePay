@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.pay.clientfeign;
 
 import com.lucatic.grupo2.app.pay.models.dto.BoolResponseWithError;
+import com.lucatic.grupo2.app.pay.models.dto.StringResponseWithError;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,5 +35,5 @@ public interface CheckUserEventFeignClient {
      * @return String El nombre del usuario.
      */
     @GetMapping("/eventmanager/getUser/{idUser}")
-    String getNameUser(@PathVariable Long idUser);
+    StringResponseWithError getNameUser(@PathVariable Long idUser);
 }

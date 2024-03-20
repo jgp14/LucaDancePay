@@ -57,7 +57,7 @@ public class PayController {
 	 */
 
 	@Operation(summary = "Dar de alta un pago", description = "Incluye un nuevo pago en la base de datos", tags = {
-			"event" })
+			"pay" })
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Pago creado correctamente", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = PayResponseWithError.class)) }),
 

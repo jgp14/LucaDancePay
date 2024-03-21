@@ -9,26 +9,29 @@ package com.lucatic.grupo2.app.pay.exceptions;
  * @since 18-03-2024
  */
 
-public class PayExceptionBank extends  PayException {
-	
+public class PayExceptionBank extends PayException {
+
+	/** Genera un serial para la excepcion personalizada */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Constructor que recibe un mensaje del fallo
 	 * 
 	 * @param message el mensaje de error del bamco
 	 */
 
-    public PayExceptionBank(String message) {
-        super(message);
-    }
-    
-    /**
+	public PayExceptionBank(String message) {
+		super(message);
+	}
+
+	/**
 	 * Constructor que recibe un mensaje y la causa lanzable
 	 * 
 	 * @param message el mensaje de error del banco
 	 * @param cause   Detalles de motivos de la causa throwable
 	 */
 
-    public PayExceptionBank(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public PayExceptionBank(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

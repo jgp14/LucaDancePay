@@ -29,22 +29,22 @@ public class PayAdapter {
 	 */
 	private static Logger LOGGER = LoggerFactory.getLogger(PayAdapter.class);
 
-	public PayResponseWithError toPayResponseWithError(Pay pay) {
-		PayResponse payResponse = new PayResponse();
-		payResponse.setId(pay.getId());
-
-//		BankResponse bankResponse = new BankResponse(); TODO revisar
-//		Long codRespuesta = Long.parseLong(bankResponse.getError());
-//		payResponse.setCodRespuesta(codRespuesta);
-//		payResponse.setMensaje(bankResponse.getMessage());
-		payResponse.setCodRespuesta(0L);
-		payResponse.setMensaje(new ArrayList<String>());
-
-		PayResponseWithError payResponseWithError = new PayResponseWithError();
-		payResponseWithError.setEventResponse(payResponse);
-		payResponseWithError.setErrorBool(false);
-		return payResponseWithError;
-	}
+//	public PayResponseWithError toPayResponseWithError(Pay pay) {
+//		PayResponse payResponse = new PayResponse();
+//		payResponse.setId(pay.getId());
+//
+////		BankResponse bankResponse = new BankResponse(); TODO revisar
+////		Long codRespuesta = Long.parseLong(bankResponse.getError());
+////		payResponse.setCodRespuesta(codRespuesta);
+////		payResponse.setMensaje(bankResponse.getMessage());
+//		payResponse.setCodRespuesta(0L);
+//		payResponse.setMensaje(new ArrayList<String>());
+//
+//		PayResponseWithError payResponseWithError = new PayResponseWithError();
+//		payResponseWithError.setEventResponse(payResponse);
+//		payResponseWithError.setErrorBool(false);
+//		return payResponseWithError;
+//	}
 
 	/**
 	 * Metodo que transforma el dto request del evento en una entidad Pay.

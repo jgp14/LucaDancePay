@@ -1,5 +1,6 @@
 package com.lucatic.grupo2.app.pay.models.dto;
 
+import com.lucatic.grupo2.app.pay.models.Error;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

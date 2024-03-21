@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
  * @since 15-03-2024
  */
 @RestControllerAdvice
-public class HandlerProductException {
+public class HandlerPayException {
 
 	/**
 	 * Error método error de ejecucion generico.
@@ -182,7 +182,7 @@ public class HandlerProductException {
 		PayResponseWithError payResponseWithError = new PayResponseWithError();
 		payResponseWithError.setError(error);
 		payResponseWithError.setErrorBool(true);
-		payResponseWithError.setEventResponse(null);
+		payResponseWithError.setPayResponse(null);
 		// return ResponseEntity.internalServerError().body(error);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(payResponseWithError);
 	}
@@ -196,13 +196,13 @@ public class HandlerProductException {
 	public ResponseEntity<PayResponseWithError> errorFeigngetUsername(JsonParseException e) {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
-		error.setError("Error conviertiendo json de microservicios");
-		error.setMessage("Error conviertiend json de microservicios");
+		error.setError("Error conviertiendo json de conexión entre sistemas");
+		error.setMessage("Error conviertiend json de conexión entre sistemas");
 		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		PayResponseWithError payResponseWithError = new PayResponseWithError();
 		payResponseWithError.setError(error);
 		payResponseWithError.setErrorBool(true);
-		payResponseWithError.setEventResponse(null);
+		payResponseWithError.setPayResponse(null);
 		// return ResponseEntity.internalServerError().body(error);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(payResponseWithError);
 	}

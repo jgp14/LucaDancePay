@@ -133,7 +133,7 @@ public class PayServiceImpl implements PayService {
                         payRequest.getCodigoTarjeta());
                 pay = payRepository.save(pay);
                 LOGGER.info(pay + " guardado en bbdd");
-                payResponseWithError.setEventResponse(new PayResponse(pay.getId(), Long.parseLong(code), Arrays.asList("Pago realizado con éxito")));
+                payResponseWithError.setPayResponse(new PayResponse(pay.getId(), Long.parseLong(code), "Pago realizado con éxito", payRequest.getNumEntradas(), payRequest.getPrecioFinal() * payRequest.getNumEntradas(), payRequest.getIdUsuario(), payRequest.getIdEvento()));
                 payResponseWithError.setError(null);
                 payResponseWithError.setErrorBool(false);
                 break;

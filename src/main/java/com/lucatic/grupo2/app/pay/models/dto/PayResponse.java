@@ -28,7 +28,7 @@ public class PayResponse implements Serializable {
 	/**
 	 * Atributo Long id de los oagos.
 	 */
-	private Long id;
+	private Long idPago;
 
 	/**
 	 * Atributo long con codigo de respuesta.
@@ -38,6 +38,11 @@ public class PayResponse implements Serializable {
 	/**
 	 * Atributo mensaje de lista de string
 	 */
-	private List<String> mensaje;
+	private String mensaje;
+
+	private Integer numeroEntradas;
+	private Double precioFinal;
+	private Long idUsuario;
+	private Long idEvento;
 
 }

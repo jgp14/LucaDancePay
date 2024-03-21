@@ -22,7 +22,7 @@ public class PayResponseWithError {
 	/**
 	 * Atrubuto Clase PayResponse
 	 */
-	private PayResponse eventResponse;
+	private PayResponse payResponse;
 
 	/**
 	 * Atrubuto clase Error

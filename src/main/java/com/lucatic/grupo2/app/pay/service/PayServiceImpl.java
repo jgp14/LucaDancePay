@@ -69,7 +69,7 @@ public class PayServiceImpl implements PayService {
             }
         } catch (FeignException e) {
             LOGGER.warn(e);
-            throw new PayException("Error chekeando microservicio eventmanager para verificar usuario y evento");
+            throw new PayException("Error al obtener la verificacion de usuario y/o evento");
         }
 
         try {
@@ -78,7 +78,7 @@ public class PayServiceImpl implements PayService {
             LOGGER.info(stringResponseWithError);
         } catch (FeignException e) {
             LOGGER.warn(e);
-            throw new PayException("Error checkeando nombre de usuario microservicio eventmanager");
+            throw new PayException("Error obteniendo username");
         }
 
         if (!stringResponseWithError.isErrorBool()) {

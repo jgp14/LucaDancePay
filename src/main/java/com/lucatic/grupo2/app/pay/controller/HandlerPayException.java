@@ -8,6 +8,7 @@ import com.lucatic.grupo2.app.pay.models.Error;
 import com.lucatic.grupo2.app.pay.models.dto.PayResponseWithError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,7 +38,7 @@ public class HandlerPayException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error procesando petición");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setMessage("Error del tipo genérico");
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		// return ResponseEntity.internalServerError().body(error);
 		PayResponseWithError eventResponseWithError = new PayResponseWithError();
@@ -57,7 +58,7 @@ public class HandlerPayException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error genérico procesando petición");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setMessage("Error del tipo genérico");
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		// return ResponseEntity.internalServerError().body(error);
 		PayResponseWithError eventResponseWithError = new PayResponseWithError();
@@ -77,7 +78,7 @@ public class HandlerPayException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error en los datos del cliente, compruebelos");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName() + " " + e.getMessage().split(":")[1]);
+		error.setMessage(e.getMessage().split(":")[1]);
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		// return ResponseEntity.internalServerError().body(error);
 		PayResponseWithError eventResponseWithError = new PayResponseWithError();
@@ -98,7 +99,7 @@ public class HandlerPayException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error en la URL");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setMessage("Error buscando manejador de petición");
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		PayResponseWithError eventResponseWithError = new PayResponseWithError();
 		eventResponseWithError.setError(error);
@@ -118,7 +119,21 @@ public class HandlerPayException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error en la URL");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setMessage("Error en el tipo de método HTTP de peticion");
+		error.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
+		PayResponseWithError eventResponseWithError = new PayResponseWithError();
+		eventResponseWithError.setError(error);
+		eventResponseWithError.setErrorBool(true);
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED.value()).body(eventResponseWithError);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<PayResponseWithError> errorHttpMessageNotReadable(HttpMessageNotReadableException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error en los campos del json");
+		error.setMessage("Introduce correctamente los datos y su formato");
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		PayResponseWithError eventResponseWithError = new PayResponseWithError();
 		eventResponseWithError.setError(error);
@@ -156,7 +171,7 @@ public class HandlerPayException {
 	public ResponseEntity<PayResponseWithError> errorPayException(PayException e) {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
-		error.setError("Error del tipo " + e.getClass().getSimpleName());
+		error.setError("Error en la gestión de la aplicación");
 		error.setMessage(e.getMessage());
 		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		PayResponseWithError eventResponseWithError = new PayResponseWithError();

@@ -39,7 +39,7 @@ class LucaDancePayApplicationTests {
 		payRequest.setCodigoTarjeta("44444a44444444444");
 		payRequest.setMes(12);
 		payRequest.setNumEntradas(2);
-		payRequest.setPrecioFinal(80D);
+		payRequest.setPrecio(80D);
 		payRequest.setIdUsuario(2L);
 		payRequest.setIdEvento(25L);
 
@@ -56,7 +56,7 @@ class LucaDancePayApplicationTests {
 		payRequest.setCodigoTarjeta("4444444444444444");
 		payRequest.setMes(12);
 		payRequest.setNumEntradas(2);
-		payRequest.setPrecioFinal(80D);
+		payRequest.setPrecio(80D);
 		payRequest.setIdUsuario(20L);
 		payRequest.setIdEvento(25L);
 
@@ -73,7 +73,7 @@ class LucaDancePayApplicationTests {
 		payRequest.setCodigoTarjeta("4444444444444444");
 		payRequest.setMes(12);
 		payRequest.setNumEntradas(2);
-		payRequest.setPrecioFinal(80D);
+		payRequest.setPrecio(80D);
 		payRequest.setIdUsuario(20L);
 		payRequest.setIdEvento(25L);
 

@@ -56,7 +56,7 @@ public class PayAdapter {
 		Pay pay = new Pay();
 		pay.setIdUser(payRequest.getIdUsuario());
 		pay.setIdEvent(payRequest.getIdEvento());
-		pay.setFinalPrice(payRequest.getPrecioFinal());
+		pay.setFinalPrice(payRequest.getPrecio());
 		pay.setTickets(payRequest.getNumEntradas());
 		pay.setCardNumber(payRequest.getCodigoTarjeta());
 
@@ -99,7 +99,7 @@ public class PayAdapter {
 		bankRequest.setCvv(payRequest.getCvv());
 		bankRequest.setEmisor(payRequest.getEmisor());
 		bankRequest.setConcepto(payRequest.getConcept());
-		bankRequest.setCantidad(payRequest.getPrecioFinal() * payRequest.getNumEntradas());
+		bankRequest.setCantidad(payRequest.getPrecio() * payRequest.getNumEntradas());
 
 		return bankRequest;
 	}

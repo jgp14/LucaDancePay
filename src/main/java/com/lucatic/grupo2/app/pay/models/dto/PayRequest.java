@@ -35,7 +35,7 @@ public class PayRequest {
 	 * Atributo entero de precio final.
 	 */
 	@NotNull
-	private Double precioFinal;
+	private Double precio;
 
 	/**
 	 * Atributo entero de numero de entradas.

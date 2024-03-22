@@ -128,12 +128,12 @@ public class PayServiceImpl implements PayService {
                 Pay pay = new Pay(
                         payRequest.getIdUsuario(),
                         payRequest.getIdEvento(),
-                        payRequest.getPrecioFinal() * payRequest.getNumEntradas(),
+                        payRequest.getPrecio() * payRequest.getNumEntradas(),
                         payRequest.getNumEntradas(),
                         payRequest.getCodigoTarjeta());
                 pay = payRepository.save(pay);
                 LOGGER.info(pay + " guardado en bbdd");
-                payResponseWithError.setPayResponse(new PayResponse(pay.getId(), Long.parseLong(code), "Pago realizado con éxito", payRequest.getNumEntradas(), payRequest.getPrecioFinal() * payRequest.getNumEntradas(), payRequest.getIdUsuario(), payRequest.getIdEvento()));
+                payResponseWithError.setPayResponse(new PayResponse(pay.getId(), Long.parseLong(code), "Pago realizado con éxito", payRequest.getNumEntradas(), payRequest.getPrecio() * payRequest.getNumEntradas(), payRequest.getIdUsuario(), payRequest.getIdEvento()));
                 payResponseWithError.setError(null);
                 payResponseWithError.setErrorBool(false);
                 break;
